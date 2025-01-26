@@ -1,0 +1,39 @@
+version: "3.7"
+services:
+  putovanje:
+    build: .
+    container_name: putovanje
+    image: putovanje:latest
+    environment:
+      - MYSQL_HOST=mysql
+    ports:
+      - "80:8080"
+    networks:
+      - putovanje-network
+    depends_on:
+      - mysql
+    restart: always
+
+  mysql:
+    container_name: mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    image: mysql:latest
+    ports:
+      - "3307:3306"
+    networks:
+      - putovanje-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=lozinka
+      - MYSQL_DATABASE=putovanje_db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=db2025
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: always
+
+networks:
+  putovanje-network:
+    driver: bridge
+volumes:
+  mysql-data:
+  java-data:

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Putovanje iz prve ruke</title>
+    <link rel="icon" href="/images/zeleno.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a994e, #a7c957);
+            font-family: 'Arial', sans-serif;
+        }
+        .card {
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .card-body {
+            color: black;
+        }
+        .btn-custom {
+            background-color: #6a994e;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn-custom:hover {
+            background-color: #588c3b;
+        }
+        .form-floating {
+            margin-bottom: 1.5rem;
+        }
+        .form-control-lg {
+            font-size: 1.25rem;
+            border-radius: 0.5rem;
+        }
+        .img-fluid {
+            border-radius: 1rem 0 0 1rem;
+            object-fit: cover;
+            height: 100%;
+        }
+        .h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #6a994e;
+        }
+        .fw-normal {
+            font-weight: 400;
+        }
+        .form-control:focus {
+            box-shadow: 0 0 5px 2px #6a994e;
+            border-color: #6a994e;
+        }
+        .link-custom {
+            color: #6a994e;
+            text-decoration: none;
+        }
+        .link-custom:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<section class="vh-100 d-flex align-items-center justify-content-center">
+    <div class="container py-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="row g-0">
+                        <div class="col-md-6 col-lg-5 d-none d-md-block">
+                            <img src="https://i.postimg.cc/yxjNrxTs/loginn.jpg" alt="Login Image" class="img-fluid" />
+                        </div>
+                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                            <div class="card-body px-5 py-4">
+                                <form th:action="@{/login}" th:object="${user}" method="POST">
+                                    <div class="d-flex align-items-center mb-4">
+                                        <i class="fas fa-plane-departure fa-2x me-3" style="color: #6a994e;"></i>
+                                        <span class="h1 mb-0">Putovanje iz prve ruke</span>
+                                    </div>
+
+                                    <h5 class="fw-normal mb-4" style="letter-spacing: 1px;">Prijavi se na svoj račun</h5>
+
+                                    <div class="form-floating">
+                                        <input type="email" th:field="*{email}" class="form-control form-control-lg" id="emailInput" placeholder="Unesite email" required>
+                                        <label for="emailInput">Email adresa</label>
+                                    </div>
+
+                                    <!-- Floating Password Input -->
+                                    <div class="form-group mb-4">
+                                        <div class="input-group">
+                                            <!-- Floating label samo za input -->
+                                            <div class="form-floating flex-grow-1">
+                                                <input type="password" th:field="*{password}" id="form2Example27" class="form-control form-control-lg" required placeholder="Unesite Vašu lozinku..." />
+                                                <label for="form2Example27">Lozinka</label>
+                                            </div>
+                                            <!-- Dugme za prikazivanje lozinke -->
+                                            <button type="button" class="input-group-text px-3" onclick="togglePassword()" style="height: calc(3.5rem + 2px);">
+                                                <i id="password-icon" class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <button class="btn btn-custom btn-lg btn-block w-100" type="submit">Prijava</button>
+
+                                    <div class="d-flex justify-content-between mt-4">
+                                        <a href="#" class="small link-custom">Zaboravljena lozinka?</a>
+                                        <a href="/register" class="small link-custom">Registriraj se</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function togglePassword() {
+        const passwordField = document.getElementById('form2Example27');
+        const passwordIcon = document.getElementById('password-icon');
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';  // Show password
+            passwordIcon.classList.remove('fa-eye');  // Remove "eye" icon
+            passwordIcon.classList.add('fa-eye-slash');  // Add "eye-slash" icon
+        } else {
+            passwordField.type = 'password';  // Hide password
+            passwordIcon.classList.remove('fa-eye-slash');  // Remove "eye-slash" icon
+            passwordIcon.classList.add('fa-eye');  // Add "eye" icon
+        }
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
+

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Putovanje iz prve ruke</title>
+    <link rel="icon" href="/images/zeleno.png" type="image/png">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .custom-bg {
+        background-color: #556B2F !important; /* Olive Green Background */
+        padding: 15px 30px; /* Wider navbar with more padding */
+        }
+
+        .navbar-brand, .nav-link {
+        font-weight: bold; /* Bold white text */
+        font-size: 1.9rem; /* Increase font size */
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+        color: white !important; /* White text for links */
+        font-size: 1.1rem; /* Slightly larger text for navbar links */
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover {
+        color: #ddd !important; /* Lighten color when hovered */
+        }
+
+        .navbar-toggler-icon {
+        background-color: white !important; /* Toggler icon white for better contrast */
+        }
+        .action-button {
+            width: 40px;
+            height: 40px;
+            margin-right: 5px;
+            border: 2px solid transparent;
+            transition: all 0.1s ease-in-out;
+        }
+
+        .action-button i {
+            font-size: 18px;
+            transition: color 0.1s ease-in-out;
+        }
+
+        .edit-button {
+            background-color: blue;
+            color: white;
+            border-color: blue;
+        }
+
+        .edit-button:hover {
+            background-color: white;
+            color: blue;
+            border-color: blue;
+        }
+
+        .delete-button {
+            background-color: red;
+            color: white;
+            border-color: red;
+        }
+
+        .delete-button:hover {
+            background-color: white;
+            color: red;
+            border-color: red;
+        }
+        .form-container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .rating-input {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+            display: inline-block;
+            width: 100px;
+            text-align: center;
+            font-size: 18px;
+        }
+        table {
+            table-layout: fixed;
+            width: 100%;
+        }
+        td, th {
+            word-wrap: break-word;
+            white-space: normal;
+        }
+        .putovanje {
+            display: flex;
+            align-items: center;
+        }
+        .putovanje i {
+            margin-right: 10px;
+        }
+        .form-container {
+            display: none;
+        }
+        #putovanje1 {
+            cursor: pointer;
+        }
+
+        #putovanje1:hover {
+            color: #556B2F;  /* Promjena boje teksta pri hover-u */
+            text-decoration: underline; /* Dodaj podcrtavanje pri hover-u */
+        }
+
+
+
+
+        /* Stiliziranje modala */
+        .modal-dialog {
+            max-width: 800px; /* Širina modala */
+            margin: 30px auto; /* Centriraj modal */
+        }
+
+        .modal-content {
+            background-color: #f8f9fa; /* Svijetla pozadina za modal */
+            border-radius: 10px; /* Zaobljeni rubovi */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Dodavanje sjene */
+        }
+
+        .modal-header {
+            background-color: #556B2F;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px 10px 0 0;
+            padding: 20px;
+        }
+
+        .modal-header .close {
+            color: white;
+            font-size: 1.5rem;
+            opacity: 1;
+        }
+
+        .modal-header .close:hover {
+            color: #d9534f; /* Promjena boje kad se pređe preko ikone za zatvaranje */
+        }
+
+        /* Stiliziranje tijela modala */
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px; /* Razmak između polja */
+        }
+
+        .form-control {
+            border-radius: 5px; /* Zaobljeni rubovi polja */
+            padding: 10px; /* Unutarnji razmak */
+        }
+        .form-control:focus {
+            box-shadow: 0 0 5px 2px #6a994e;
+            border-color: #6a994e;
+        }
+
+        /* Stiliziranje dugmeta za spremanje promjena */
+        .btn-dark {
+            background-color: #556B2F;
+            color: white;
+            border-radius: 5px;
+            padding: 10px 20px;
+        }
+
+
+
+        /* Dodavanje margine za formu */
+        form {
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark custom-bg">
+    <a class="navbar-brand" href="/home">
+        <img src="/images/bijelo.png" alt="Brand Icon" style="height: 50px; width: auto; margin-right: 15px;">
+        Putovanje iz prve ruke</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/profile"><i class="fas fa-user"></i>Tvoja putovanja</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="logoutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-sign-out-alt"></i> Odjavi
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="logoutDropdown">
+                    <form id="logoutForm" th:action="@{/logout}" method="post">
+                        <button type="submit" class="dropdown-item">Potvrdi odjavu</button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+
+
+    <h2 class="my-4 text-center">Vaša putovanja</h2>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead style="background-color: rgba(85, 107, 47, 0.3); color: #556B2F;">
+            <tr>
+                <th>Država</th>
+                <th>Destinacija</th>
+                <th>Datum dodavanja</th>
+                <th>Ocjena</th>
+                <th colspan="4">Osvrt</th>
+                <th>Opcije</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="review : ${user_reviews}">
+                <td th:text="${review.getNazivDrzave()}"></td>
+                <td th:text="${review.getNazivDestinacije()}"></td>
+                <td th:text="${review.formattedDatumDodavanja}"></td>
+                <td th:text="${review.getOcjena()}"></td>
+                <td th:text="${review.getOsvrt()}" colspan="4"></td>
+                <td>
+                    <div class="d-inline-flex gap-2">
+                        <!-- Edit button -->
+                        <button type="button" class="btn btn-sm btn-outline-warning d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#editReviewModal"
+                                th:data-id="${review.id}"
+                                th:data-destinacija="${review.nazivDestinacije}"
+                                th:data-drzava="${review.nazivDrzave}"
+                                th:data-ocjena="${review.ocjena}"
+                                th:data-osvrt="${review.osvrt}"
+                                onclick="loadReview(this)">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <!-- Delete button -->
+                        <form th:action="@{/osvrti/delete/{id}(id=${review.id})}" method="post" style="margin: 0;">
+                            <button type="submit" class="btn btn-sm btn-outline-danger d-flex align-items-center justify-content-center" onclick="return confirm('Are you sure you want to delete this review?')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editReviewModalLabel">Uredi postojeće putovanje</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/osvrti/edit}" th:object="${putovanje}" method="post">
+                        <input type="hidden" th:field="*{id}" id="editReviewId">
+                        <div class="form-group">
+                            <label for="editNazivDestinacije">Naziv destinacije</label>
+                            <input type="text" th:field="*{nazivDestinacije}" class="form-control" id="editNazivDestinacije">
+                        </div>
+                        <div class="form-group">
+                            <label for="editNazivDrzave">Naziv države</label>
+                            <input type="text" th:field="*{nazivDrzave}" class="form-control" id="editNazivDrzave">
+                        </div>
+                        <div class="form-group">
+                            <label for="editOcjena">Ocjena</label>
+                            <input type="number" th:field="*{ocjena}" class="form-control" id="editOcjena" step="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="editOsvrt">Osvrt</label>
+                            <textarea th:field="*{Osvrt}" class="form-control" id="editOsvrt"></textarea>
+                        </div>
+                        <button type="submit"  style="background-color: #556B2F; color: white; border: none; padding: 10px 20px; border-radius: 5px;">Spremi promjene!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="putovanje"  id="putovanje1" onclick="toggleAddTravelForm()">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        <h2>Dodaj novo putovanje</h2>
+    </div>
+    <div class="form-container">
+        <form th:action="@{/osvrti/add}" th:object="${putovanje}" method="post">
+            <div class="form-group">
+                <label for="nazivDestinacije">Naziv destinacije</label>
+                <input type="text" th:field="*{nazivDestinacije}" class="form-control" id="nazivDestinacije">
+                <div th:if="${#fields.hasErrors('nazivDestinacije')}" th:errors="*{nazivDestinacije}" class="text-danger"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="nazivDrzave">Naziv države</label>
+                <input type="text" th:field="*{nazivDrzave}" class="form-control" id="nazivDrzave">
+                <div th:if="${#fields.hasErrors('nazivDrzave')}" th:errors="*{nazivDrzave}" class="text-danger"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="ocjena">Ocjena</label>
+                <input type="number" th:field="*{ocjena}" class="form-control rating-input" id="ocjena" step="0.5">
+                <div th:if="${#fields.hasErrors('ocjena')}" th:errors="*{ocjena}" class="text-danger"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="osvrt">Osvrt</label>
+                <textarea th:field="*{osvrt}" class="form-control" id="osvrt"></textarea>
+                <div th:if="${#fields.hasErrors('osvrt')}" th:errors="*{osvrt}"
+                     class="text-danger"></div>
+            </div>
+
+            <button type="submit"  style="background-color: #556B2F; color: white; border: none; padding: 10px 20px; border-radius: 5px;">Spremi!</button>
+        </form>
+    </div>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function loadReview(button) {
+        const reviewId = button.getAttribute('data-id');
+        const nazivDestinacije = button.getAttribute('data-destinacija');
+        const nazivDrzave = button.getAttribute('data-drzava');
+        const ocjena = button.getAttribute('data-ocjena');
+        const osvrt = button.getAttribute('data-osvrt');
+
+
+        document.getElementById('editReviewId').value = reviewId;
+        document.getElementById('editNazivDestinacije').value = nazivDestinacije;
+        document.getElementById('editNazivDrzave').value = nazivDrzave;
+        document.getElementById('editOcjena').value = ocjena;
+        document.getElementById('editOsvrt').value = osvrt;
+
+        $('#editReviewModal').modal('show');
+    }
+    function toggleAddTravelForm() {
+    const formContainer = document.querySelector('.form-container');
+    const putovanjeButton = document.querySelector('.putovanje');
+
+    // Ako forma nije prikazana, prikaži je, inače je sakrij
+    if (formContainer.style.display === 'none' || formContainer.style.display === '') {
+        formContainer.style.display = 'block';
+        putovanjeButton.classList.add('open'); // Dodaj klasu za otvoreni dugme
+    } else {
+        formContainer.style.display = 'none';
+        putovanjeButton.classList.remove('open'); // Ukloni klasu za zatvoreni dugme
+    }
+}
+
+</script>
+</body>
+</html>
