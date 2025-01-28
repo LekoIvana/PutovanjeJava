@@ -15,22 +15,22 @@ public class Putovanje {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-        @Size(min = 2, max = 50, message = "Book Title needs to be between 2 and 50 characters.") // Anotator za provjeru duljine unesenog teksta.
+        @Size(min = 2, max = 50, message = "Naziv destinacije mora biti duzi od 2 znaka i kraci od 50.") // Anotator za provjeru duljine unesenog teksta.
         @Column(nullable = false, length = 50)
         private String nazivDestinacije;
 
-        @Size(min = 2, max = 50, message = "Book Author needs to be between 2 and 50 characters.") // Anotator za provjeru duljine unesenog teksta.
+        @Size(min = 2, max = 50, message = "Naziv drzave mora biti duze od 2 znaka i kraci od 50.") // Anotator za provjeru duljine unesenog teksta.
         @Column(nullable = false, length = 50)
         private String nazivDrzave;
 
 
-        @Size(min = 10, max = 5000, message = "Review text needs to have between 10 and 5000 characters.") // Anotator za provjeru duljine unesenog teksta.
+        @Size(min = 10, max = 5000, message = "=svrt mora biti izmedju 10 i 5000 znakova.") // Anotator za provjeru duljine unesenog teksta.
         @Column(nullable = false, length = 5000)
         private String osvrt;
 
-        @DecimalMin(value = "1.00", message = "Rating can not be less than 1.")
-        @DecimalMax(value = "5.00", message = "Rating can not be more than 5")
-        @Digits(integer = 1, fraction = 2, message = "Rating can have no more than 2 decimal places.")
+        @DecimalMin(value = "1.00", message = "Ocjena ne moze biti manja od  1.")
+        @DecimalMax(value = "5.00", message = "Ocjena ne moze biti veca od 5.")
+        @Digits(integer = 1, fraction = 2, message = "ne mogu biti vise od 2 decimalna mjesta")
         private BigDecimal ocjena;
 
         @ManyToOne(fetch = FetchType.LAZY)
